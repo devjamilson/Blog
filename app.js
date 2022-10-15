@@ -8,8 +8,25 @@ const path =  require('path')
 //config a conexão com o mongodb
 const mongoose = require('mongoose')
 const app = express()
+const session = require("express-session")
+const flash = require("connect-flash")
 
 // Configurações
+    //Sessão
+    app.use(session({
+        secret: "seguro",
+        resave: true,
+        saveUninitialized: true
+    }))
+    app.use(flash())
+    //Midleware - intermediador de requisições
+    app.use((req, res, next)=>{
+        //duas variáveis globais
+        res.locals.success_msg = req.flash('success_msg')
+        res.locals.error_msg = req.flash('error_msg')
+        next()
+    })
+
     //Body-Parser
     app.use(express.urlencoded({extended: true}))
     app.use(express.json())
