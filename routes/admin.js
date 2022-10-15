@@ -18,7 +18,13 @@ router.get('/posts', (req, res) =>{
 })
 
 router.get('/categorias', (req, res) =>{
-    res.render("admin/categorias")
+    Categoria.find().lean().sort({date:'desc'}).then((categorias)=>{
+        res.render("admin/categorias", {categorias: categorias})
+    }).catch((err)=>{
+        req.flash("error_msg", "Houve um erro ao listar as categorias!")
+        res.redirect("/admin")
+    })
+    
 })
 
 router.get('/categorias/add', (req, res) =>{
@@ -27,7 +33,7 @@ router.get('/categorias/add', (req, res) =>{
 
 //rota responsável por criar uma nova categoria dentro do banco de dados
 router.post('/categorias/nova',(req, res) =>{
-    let erros = []
+    var erros = []
     if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
         erros.push({texto: "Nome inválido!"})
     }
@@ -36,19 +42,26 @@ router.post('/categorias/nova',(req, res) =>{
     }
 
     if(erros.length > 0){
-        res.render('admin/categorias', {erros: erros})
+        res.render('admin/addcategoria', {erros: erros})
+    }
+    else{
+        const novaCategoria = {
+            nome: req.body.nome,
+            slug: req.body.slug
+        }
+
+        new Categoria(novaCategoria).save().then(()=>{
+            //msg com o flash são de tempo curto, ao recarregar a página ela some
+            req.flash("success_msg", "Categoria criada com sucesso!")
+            //redireciona para a página de listagem de categorias
+            res.redirect("/admin/categorias")
+        }).catch((err)=>{
+            req.flash("error_msg", "Houve um erro ao salvar a categoria!")
+            res.redirect("/admin")
+        })
     }
 
-    const novaCategoria = {
-        nome: req.body.nome,
-        slug: req.body.slug
-    }
-
-    new Categoria(novaCategoria).save().then(()=>{
-        console.log("Categoria salva com sucesso!")
-    }).catch((err)=>{
-        console.log("Erro: "+err)
-    })
+    
 })
 
 
