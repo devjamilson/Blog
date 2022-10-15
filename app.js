@@ -10,6 +10,8 @@ const mongoose = require('mongoose')
 const app = express()
 const session = require("express-session")
 const flash = require("connect-flash")
+require("./models/Postagens")
+const Postagem = mongoose.model("postagens")
 
 // Configurações
     //Sessão
@@ -46,10 +48,23 @@ const flash = require("connect-flash")
 // Rotas
    //referenciando as rotas da pasta admin
    //'/admin' é tipo um prefixo da rota, que indica o grupo de rotas
+   app.get('/', (req, res) => {
+        Postagem.find().lean().populate("categoria").sort({data: 'desc'}).then((postagens) => {
+            res.render("index", {postagens: postagens})
+        }).catch((err) => {
+            req.flash("error_msg", "Não foi possível carregar os posts")
+            res.redirect("/404")
+        })
+    })
+
+    app.get('/404', (req, res)=>{
+        res.send("Erro 404!")
+    })
+
    app.use('/admin', admin)
 
 // Outros
-const PORT = 3000
+const PORT = 8081
 
 app.listen(PORT, ()=>{
     console.log("Servidor Rodando")

@@ -13,6 +13,10 @@
             <small><strong>Descrição:</strong> {{descricao}}</small>
             <small><strong>Data de criação:</strong> {{date}}</small>
             <small><strong>Categoria:</strong> {{categoria.nome}}</small>
+            <div class="manipulando-as-categorias">
+                <a href="/admin/postagens/edit/{{_id}}"><button class="btn-editar-categoria">Editar</button></a>
+                <a href="/admin/postagens/deletar/{{_id}}"><button class="btn-deletar-categoria">Deletar</button><a>
+            </div>
         </div>
     </div>
 {{else}}

@@ -1,0 +1,27 @@
+
+
+<div class="form-add-categoria add-margem-form-postagem">
+    <h2 >Editar Postagem</h2>
+    <form action="/admin/postagens/edit"  method="POST">
+        <input type="hidden" value="{{postagem._id}}"name="id">
+        <label for="titulo">Titulo:</label>
+        <input type="text" id="titulo" name="titulo" value="{{postagem.titulo}}" placeholder="Titulo da postagem" required>
+        <label for="slug">Slug:</label>
+        <input type="text" id="slug" name="slug" value="{{postagem.slug}}" placeholder="Slug  da postagem" required>
+        
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao" value="{{postagem.descricao}}" placeholder="Descrição da postagem" required>
+        
+        <label for="conteudo">Conteúdo:</label>
+        <textarea type="text" id="slug" name="conteudo"placeholder="Conteúdo  da postagem">{{postagem.conteudo}}</textarea required>
+        <label for="categoria">Categoria:</label>
+        <select name="categoria">
+            {{#each categorias}}
+                <option value="{{postagem._id}}">{{nome}}</option>
+            {{else}}
+                <option value="0">Nenhuma categoria resgistrada</option>
+            {{/each}}
+        </select>
+        <button type="submit" class="button-criar-categoria">Editar</button>
+    </form>
+</div>

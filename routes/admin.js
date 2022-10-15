@@ -12,7 +12,7 @@ const Postagem = mongoose.model("postagens")
 
 
 router.get('/', (req, res) =>{
-    res.render("admin/index")
+    res.render("index")
 })
 
 router.get('/posts', (req, res) =>{
@@ -151,6 +151,52 @@ router.post('/postagens/novas',(req, res)=>{
             res.redirect('/admin/postagens')
         })
     }
+})
+
+
+router.get('/postagens/edit/:id', (req, res)=>{
+    Postagem.findOne({_id: req.params.id}).lean().then((postagem)=>{
+        Categoria.find().lean().then((categoria)=>{
+           res.render('admin/editpostagens', {categoria: categoria, postagem: postagem})
+        }).catch((err)=>{
+            req.flash('error_msg', 'Houve um erro listar as postagens!')
+            res.redirect('/admin/postagens')
+        })
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro ao carregar o fomulario de edição!')
+        res.redirect('/admin/postagens')
+    })
+})
+
+router.post('/postagens/edit', (req,res)=>{
+    Postagem.findOne({_id:req.body.id}).then(()=>{
+        postagem.titulo = req.body.titulo,
+        postagem.slug = req.body.slug,
+        postagem.descricao = req.body.descricao,
+        postagem.conteudo = req.body.conteudo,
+        postagem.categoria = req.body.categoria
+
+        postagem.save().then(()=>{
+            req.flash('success_msg', 'Postagem editada com sucesso!')
+            res.redirect('/admin/postagens')
+        }).catch((err)=>{
+            req.flash('error_msg', 'Erro interno!')
+            res.redirect('/admin/postagens')
+        })
+    }).catch((err)=>{
+        req.flash('error_msg', 'Houve um erro ao salvar a edição!')
+        res.redirect('/admin/postagens')
+    })
+})
+
+router.get('/postagens/deletar/:id', (req, res)=>{
+    Postagem.remove({_id: req.params.id}).lean().then(()=>{
+        req.flash('success_msg', 'Postagem deletada com sucesso!')
+        res.redirect('/admin/postagens')
+    }).catch((err)=>{
+        req.flash("error_msg", "Houve um erro ao deletar a Postagem!")
+        res.redirect('/admin/postagens')
+    })
 })
 
 module.exports = router
