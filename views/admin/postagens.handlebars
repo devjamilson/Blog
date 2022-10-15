@@ -5,3 +5,16 @@
         <button class="btn-nova-categoria">Nova postagem</button>
     </a>
 </div>
+
+{{#each postagens}}
+    <div class="container-categorias">
+        <div class="card-listagem-categorias">
+            <h3>{{titulo}}</h3>
+            <small><strong>Descrição:</strong> {{descricao}}</small>
+            <small><strong>Data de criação:</strong> {{date}}</small>
+            <small><strong>Categoria:</strong> {{categoria.nome}}</small>
+        </div>
+    </div>
+{{else}}
+
+{{/each}}

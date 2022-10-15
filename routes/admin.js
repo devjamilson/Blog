@@ -107,8 +107,13 @@ router.post('/categorias/deletar', (req, res)=>{
     })
 })
 //Rotas para postagens
-router.get('/postagens',(req, res)=>{
-    res.render('admin/postagens')
+router.get('/postagens', (req, res) => {
+    Postagem.find().lean().populate('categoria').sort({data: 'desc'}).then((postagens) =>{
+        res.render('admin/postagens', {postagens: postagens})
+    }).catch( (err) => {
+        req.flash('error_msg', 'Erro ao listar os posts')
+        res.render('/admin')
+    })
 })
 
 router.get('/postagens/add', (req,res)=>{
