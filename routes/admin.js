@@ -31,6 +31,37 @@ router.get('/categorias/add', (req, res) =>{
     res.render("admin/addcategoria")
 })
 
+//editando as categorias
+router.get('/categorias/edit/:id', (req, res) =>{
+    Categoria.findOne({_id:req.params.id}).lean().then((categoria)=>{
+        res.render('admin/editcategoria', {categoria:categoria})
+    }).catch((err)=>{
+        req.flash('error_msg', 'Essa categoria não existe!')
+        res.redirect("admin/categorias")
+    })
+    
+})
+
+
+router.post('/categorias/edit/', (req, res)=>{
+    Categoria.findOne({_id: req.body.id}).then((categoria)=>{
+        categoria.nome = req.body.nome
+        categoria.slug = req.body.slug
+
+        categoria.save().then(()=>{
+            req.flash('success_msg', 'Categoria editada com sucesso!')
+            res.redirect('/admin/categorias')
+        }).catch((err)=>{
+            req.flash('error_msg', 'Essa categoria não existe!')
+            res.redirect('/admin/categorias')}
+        )
+        
+    }).catch((err)=>{
+        req.flash("error_msg", "Essa categoria não existe!")
+        res.redirect("/admin/categorias")
+    })
+})
+
 //rota responsável por criar uma nova categoria dentro do banco de dados
 router.post('/categorias/nova',(req, res) =>{
     var erros = []

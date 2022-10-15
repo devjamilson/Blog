@@ -1,8 +1,15 @@
-{{#each erros}}
-   <h1>{{texto}}</h1>
-{{else}}
+<div class="section-form-add-erro">
+    {{#each erros}}
+        <div class="form-add-erro">
+            <h2>{{texto}}</h2>
+        </div>
+    {{else}}
+    
+    {{/each}}
+</div>
 
-{{/each}}
+
+
 
 <div class="form-add-categoria">
     <h2 >Nova Categoria</h2>

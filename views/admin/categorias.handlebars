@@ -1,14 +1,18 @@
-<h2>Lista de Categorias</h2>
-<hr>
-<button><a href="/admin/categorias/add">Nova categoria</a></button>
+<div class="listagem-de-categorias">
+    <h2>Lista de Categorias</h2>
+    <hr>
+    <a href="/admin/categorias/add">
+        <button class="btn-nova-categoria">Nova categoria</button>
+    </a>
+</div>
 
 {{#each categorias}}
-    <div>
-        <div>
-            <h4>{{nome}}</h4>
-            <small>Slug: {{slug}}</small>
-            <br>
-            <small>Data de criação: {{date}}</small>
+    <div class="container-categorias">
+        <div class="card-listagem-categorias">
+            <h3>{{nome}}</h3>
+            <small><strong>Slug:</strong> {{slug}}</small>
+            <small><strong>Data de criação:</strong> {{date}}</small>
+            <a href="/admin/categorias/edit/{{_id}}"><button>Editar</button></a>
         </div>
     </div>
 {{else}}

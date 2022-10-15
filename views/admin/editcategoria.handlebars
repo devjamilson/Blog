@@ -1,0 +1,24 @@
+<div class="section-form-add-erro">
+    {{#each erros}}
+        <div class="form-add-erro">
+            <h2>{{texto}}</h2>
+        </div>
+    {{else}}
+    
+    {{/each}}
+</div>
+
+
+
+
+<div class="form-add-categoria">
+    <h2>Editar Categoria</h2>
+    <form action="/admin/categorias/edit"  method="POST">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" placeholder="Nome da categoria" value="{{categoria.nome}}">
+        <label for="slug">Slug:</label>
+        <input type="text" id="slug" name="slug" placeholder="Slug da categoria" value="{{categoria.slug}}">
+        <input type="hidden" name="id" value="{{categoria._id}}">
+        <button type="submit" class="button-criar-categoria">Editar</button>
+    </form>
+</div>
