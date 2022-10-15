@@ -12,7 +12,14 @@
             <h3>{{nome}}</h3>
             <small><strong>Slug:</strong> {{slug}}</small>
             <small><strong>Data de criação:</strong> {{date}}</small>
-            <a href="/admin/categorias/edit/{{_id}}"><button>Editar</button></a>
+            <div class="manipulando-as-categorias">
+                <a href="/admin/categorias/edit/{{_id}}"><button class="btn-editar-categoria">Editar</button></a>
+                <form action="/admin/categorias/deletar" method="post">
+                    <input type="hidden" name="id" value="{{_id}}">
+                    <button class="btn-deletar-categoria" type="submit">Deletar</button>
+                </form>
+            </div>
+             
         </div>
     </div>
 {{else}}
