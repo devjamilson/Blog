@@ -14,6 +14,10 @@ require("./models/Postagens")
 const Postagem = mongoose.model("postagens")
 require("./models/Categoria")
 const Categoria = mongoose.model("categorias")
+const usuarios = require('./routes/usuarios')
+const passport = require('passport')
+require("./config/auth")(passport)
+
 
 // Configurações
     //Sessão
@@ -22,12 +26,18 @@ const Categoria = mongoose.model("categorias")
         resave: true,
         saveUninitialized: true
     }))
+
+    app.use(passport.initialize())
+    app.use(passport.session())
+
     app.use(flash())
     //Midleware - intermediador de requisições
     app.use((req, res, next)=>{
         //duas variáveis globais
-        res.locals.success_msg = req.flash('success_msg')
-        res.locals.error_msg = req.flash('error_msg')
+        res.locals.success_msg = req.flash("success_msg")
+        res.locals.error_msg = req.flash("error_msg")
+        res.locals.error = req.flash("error")
+        res.locals.user = req.use || null;
         next()
     })
 
@@ -113,8 +123,10 @@ const Categoria = mongoose.model("categorias")
         res.send("Erro 404!")
     })
 
+   
 
 
+   app.use('/usuarios', usuarios)
 
    app.use('/admin', admin)
 

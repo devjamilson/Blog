@@ -1,0 +1,25 @@
+
+{{#each erros}}
+    <div class="section-form-add-erro">
+        <div class="form-add-erro">
+            {{texto}}
+        </div>
+    </div>
+{{else}}
+    
+{{/each}}
+
+
+
+<section class="add-margem-form-postagem">
+    <h1 class="titulo-registro">Login:</h1>
+    <div class="form-add-categoria ">
+        <form action="/usuarios/login" method="post">
+            <label for="email">Email: </label>
+                <input type="email" name="username" class="form-control" required>
+            <label for="senha">Senha: </label>
+                <input type="password" name="senha" class="form-control" required>
+            <button type="submit" class="button-criar-categoria">Entrar</button>
+        </form>    
+    </div>
+</section>

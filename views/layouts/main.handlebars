@@ -10,9 +10,16 @@
 </head>
 <body>
     {{>_navbars}}
-    {{>_msg}}
-    <div class="conteudo">
-      {{{body}}}
+    <div class="conteudo"> 
+        {{>_msg}} 
+        {{#if error}}
+            <div class="form-add-erro">
+                  <h2>{{error}}</h2>
+            </div>
+        {{else}}
+
+        {{/if}}
+        {{{body}}}
     </div>
 </body>
 </html>
