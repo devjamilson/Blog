@@ -1,0 +1,21 @@
+ <section class="listar-categorias-postagens">
+    <h1 class="listar-categorias-postagens-titulo">{{categoria.nome}}</h1>
+    {{#each postagens}}
+    
+            
+            <div class="card-postagem">
+                <div>
+                    <h1 class="titulo-postagem">{{titulo}}</h1>
+                    <p class="conteudo-postagem">{{descricao}}</p>
+                </div>
+                <div>
+                    <a href="/postagem/{{slug}}"><button>Leia Mais</button></a>
+                    <hr>
+                    <small><strong>Data de criação</strong> {{date}}</small>
+                </div>
+            </div>
+    
+    {{else}}
+
+    {{/each}} 
+</section>

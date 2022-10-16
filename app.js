@@ -80,6 +80,35 @@ const Categoria = mongoose.model("categorias")
             })
     })
 
+
+    app.get('/categorias', (req, res)=>{
+        Categoria.find().lean().then((categorias)=>{
+            res.render('categorias/index', {categorias:categorias})
+        })
+        .catch(err => {
+            req.flash("error_msg", "Houve um erro interno")
+            res.redirect("/")
+        })
+    })
+
+
+    app.get("/categorias/:slug", (req, res)=>{
+        Categoria.findOne({slug: req.params.slug}).lean().then((categoria)=>{
+            if(categoria){
+               Postagem.find({categoria:categoria._id}).lean().then((postagens)=>{
+                    res.render('categorias/postagens', {categoria: categoria, postagens:postagens})
+               }).catch(err => {
+                    req.flash("error_msg", "Houve um erro interno")
+                    res.redirect("/")
+                })
+            }
+        })
+        .catch(err => {
+            req.flash("error_msg", "Houve um erro interno")
+            res.redirect("/")
+        })
+    })
+
     app.get('/404', (req, res)=>{
         res.send("Erro 404!")
     })
