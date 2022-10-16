@@ -13,6 +13,7 @@ router.get('/registro', (req, res)=>{
 
 router.post('/registro', (req, res)=>{
     let erros = []
+    
 
     if(!req.body.nome || typeof req.body.nome == undefined || req.body.nome == null){
         erros.push({texto: "Nome inválido"})
@@ -35,6 +36,7 @@ router.post('/registro', (req, res)=>{
         res.render('usuarios/registro', {erros: erros})
     }else{
         Usuario.findOne({email: req.body.email}).then((usuario)=>{
+
             if(usuario){
                req.flash('error_msg', 'Já existe uma conta com esse email!')
                res.redirect('/usuarios/registro')
@@ -89,5 +91,13 @@ router.post('/login', (req, res, next)=>{
     })(req, res, next)
 })
 
+
+router.get('/logout', (req, res)=>{
+    req.logout((err)=>{
+        req.flash('success_msg', 'Deslogado com sucesso!')
+        res.redirect("/")
+    })
+    
+})
 
 module.exports = router

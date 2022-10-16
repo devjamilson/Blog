@@ -31,7 +31,7 @@ module.exports = function(passport){
 
 
     passport.serializeUser((usuario, done)=>{
-        done(null, usuario.id )
+        done(null, usuario._id )
     })
 
     passport.deserializeUser((id, done)=>{
